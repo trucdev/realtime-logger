@@ -5,9 +5,11 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import GraphQLJSON from 'graphql-type-json';
 import { AppResolver } from './app.resolver';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       resolvers: { JSON: GraphQLJSON },
