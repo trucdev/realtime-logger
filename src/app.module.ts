@@ -6,6 +6,7 @@ import { join } from 'path';
 import GraphQLJSON from 'graphql-type-json';
 import { AppResolver } from './app.resolver';
 import { ConfigModule } from '@nestjs/config';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 
 @Module({
   imports: [
@@ -16,12 +17,13 @@ import { ConfigModule } from '@nestjs/config';
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
       sortSchema: true,
       // subscription
-      installSubscriptionHandlers: true,
-      // subscriptions: {
-      //   'graphql-ws': true,
-      // },
+      // installSubscriptionHandlers: true,
+      subscriptions: {
+        'graphql-ws': true,
+      },
       // Apollo Sandbox
-      // plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      playground: false,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
   ],
   controllers: [AppController],
