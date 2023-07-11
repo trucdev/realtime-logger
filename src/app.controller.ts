@@ -1,14 +1,15 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { LOG_ADDED, pubSub } from './pubsub';
 
 @Controller()
 export class AppController {
-  @Post('/send-log')
-  sendLog(@Body() body: any) {
+  @Post('/send-log/:channel')
+  sendLog(@Body() body: any, @Param() params: { channel: string }) {
     // convert data and send
     const convertedData = typeof body === 'object' ? body : { data: body };
+    convertedData.__channel__ = params.channel;
 
-    console.log(convertedData);
+    // publish to subscription
     pubSub.publish(LOG_ADDED, convertedData);
 
     return {
