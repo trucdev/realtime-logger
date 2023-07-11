@@ -14,6 +14,11 @@ export class AppResolver {
   @Subscription(() => GraphQLJSON, {
     resolve: (payload: any) => {
       delete payload.__channel__;
+
+      // add log time to show in client
+      payload.__logTime__ =
+        payload.__logTime__ || Math.round(Date.now() / 1000);
+
       return payload;
     },
     filter: (payload, variables) => {

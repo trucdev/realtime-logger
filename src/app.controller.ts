@@ -9,6 +9,10 @@ export class AppController {
     const convertedData = typeof body === 'object' ? body : { data: body };
     convertedData.__channel__ = params.channel;
 
+    // add log time to show in client
+    convertedData.__logTime__ =
+      convertedData.__logTime__ || Math.round(Date.now() / 1000);
+
     // publish to subscription
     pubSub.publish(LOG_ADDED, convertedData);
 
